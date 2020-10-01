@@ -12,7 +12,7 @@ guessed_word = ""
 correctly_guessed_letters = ""
 incorrectly_guessed_letters = ""
 
-WORD_LIST = os.path.join("Scrabble-master/scrabble/sowpods.txt")
+WORD_LIST = os.path.join("hangman/Scrabble-master/scrabble/sowpods.txt")
 wordlist = open(WORD_LIST).readlines()
 # Get rid of newlines
 wordlist = [word.lower().strip() for word in wordlist]
@@ -90,8 +90,10 @@ def getNewWord():
 
 # feedback after a guess
 def displayGameState():
+    # print the hangman
     print(hangman_ascii[incorrect_guess_count])
 
+    # if we've gone over the allowable guesses do not print game state
     if incorrect_guess_count < 6:
         print("\nWORD: ", end = '')
         for g in guessed_word:
@@ -100,7 +102,7 @@ def displayGameState():
         print("")
         print("Correctly guessed letters: " + correctly_guessed_letters)
         print("Incorrectly guessed letters: " + incorrectly_guessed_letters)
-        print("incorrect guesses: " + str(incorrect_guess_count) + "\n")
+        # print("DEBUG incorrect guesses: " + str(incorrect_guess_count) + "\n")
 
 
 # check an inputted guess
@@ -109,11 +111,12 @@ def checkGuess(guess):
     global guessed_word
     global incorrectly_guessed_letters
     global incorrect_guess_count
+    
     if guess in word:
         # print("A CORRECT LETTER HAS BEEN FOUND")
         positions = [pos for pos, char in enumerate(word) if char == guess]
         # print(positions)
-        correctly_guessed_letters += guess
+        correctly_guessed_letters += guess + " "
         
         strlist = list(guessed_word)
         for p in positions:
@@ -140,7 +143,7 @@ def mainLoop():
         else:
             print("\nYOU WON! Feast on the bones of your enemy. \n")
     else:
-        print("\nTOO MANY GUESSES! You LOSE! \n")
+        print("\nThe word was " + word + ", IDOIT! \n")
 
 
 
